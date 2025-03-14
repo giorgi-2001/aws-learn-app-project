@@ -37,6 +37,7 @@ jobs:
             sudo rm -rf ~/app
             mkdir ~/app
             aws s3 cp s3://${{ secrets.S3_BUCKET }}/app.zip ~/app
+            cd ~/app
             unzip app.zip
             rm app.zip
             docker-compose up -d --build
