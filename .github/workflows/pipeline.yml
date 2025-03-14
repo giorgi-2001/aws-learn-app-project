@@ -14,7 +14,7 @@ jobs:
 
       - name: Zip the files
         run: |
-          zip -r app.zip ./app
+          zip -r app.zip ./app/*
 
       - name: Upload to S3
         uses: keithweaver/aws-s3-github-action@v1.0.0
@@ -37,7 +37,6 @@ jobs:
             sudo rm -rf ~/app
             mkdir ~/app
             aws s3 cp s3://${{ secrets.S3_BUCKET }}/app.zip ~/app
-            cd app
             unzip app.zip
             rm app.zip
             docker-compose up -d --build
