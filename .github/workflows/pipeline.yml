@@ -1,0 +1,40 @@
+name: Deploy on AWS
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy
+        uses: reggionick/s3-deploy@v4
+        with:
+          folder: /src
+          bucket: ${{ secrets.S3_BUCKET }}
+          bucket-region: ${{ secrets.S3_BUCKET_REGION }}
+          invalidation: /
+          delete-removed: true
+          no-cache: true
+          private: true
+          files-to-include: '{.*/**,**}'
+      
+      - name: Executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            aws s3 sync s3://${{ secrets.S3_BUCKET }}/ ~/app
+            cd app
+            python -m venv venv
+            source venv/bin/activate
+            pip install -r requirements.txt
+            nohup uvicorn src.main:app --host 0.0.0.0 --port 80 > app.log 2>&1 &
