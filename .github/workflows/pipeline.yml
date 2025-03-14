@@ -41,9 +41,9 @@ jobs:
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            aws s3 sync s3://${{ secrets.S3_BUCKET }}/ ~/app
+            aws s3 cp s3://${{ secrets.S3_BUCKET }}/app.zip ~/app
             cd app
-            python3 -m venv venv
-            source venv/bin/activate
+            unzip app.zip
+            rm app.zip
             pip3 install -r requirements.txt
-            nohup uvicorn main:app --host 0.0.0.0 --port 80 > app.log 2>&1 &
+            sudo nohup uvicorn main:app --host 0.0.0.0 --port 80 > app.log 2>&1 &
