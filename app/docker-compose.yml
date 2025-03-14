@@ -16,7 +16,3 @@ services:
       - ./nginx:/etc/nginx
     depends_on:
       - fastapi
-
-networks:
-  app_network:
-    driver: bridge
