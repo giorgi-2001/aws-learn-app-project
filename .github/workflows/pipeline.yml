@@ -35,9 +35,8 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             sudo rm -rf ~/app
-            mkdir ~/app
-            aws s3 cp s3://${{ secrets.S3_BUCKET }}/app.zip ~/app
-            cd ~/app
-            unzip app.zip .
+            aws s3 cp s3://${{ secrets.S3_BUCKET }}/app.zip .
+            unzip app.zip
             rm app.zip
+            cd ~/app
             sudo docker-compose up -d --build
