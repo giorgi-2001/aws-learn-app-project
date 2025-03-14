@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  fastapi:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src:/app/src
+
+  nginx:
+    image: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx:/etc/nginx
+    depends_on:
+      - fastapi
+
+networks:
+  app_network:
+    driver: bridge
