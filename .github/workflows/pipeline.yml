@@ -39,4 +39,4 @@ jobs:
             unzip app.zip
             rm app.zip
             cd ~/app
-            sudo docker-compose up -d --build
+            docker compose up -d --build
