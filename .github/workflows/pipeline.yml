@@ -26,17 +26,17 @@ jobs:
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: ${{ secrets.S3_BUCKET_REGION }}
               
-      - name: Executing remote ssh commands using ssh key
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
-          port: ${{ secrets.PORT }}
-          script: |
-            sudo rm -rf ~/app
-            aws s3 cp s3://${{ secrets.S3_BUCKET }}/app.zip .
-            unzip app.zip
-            rm app.zip
-            cd ~/app
-            docker compose up -d --build
+      # - name: Executing remote ssh commands using ssh key
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ secrets.HOST }}
+      #     username: ${{ secrets.USERNAME }}
+      #     key: ${{ secrets.KEY }}
+      #     port: ${{ secrets.PORT }}
+      #     script: |
+      #       sudo rm -rf ~/app
+      #       aws s3 cp s3://${{ secrets.S3_BUCKET }}/app.zip .
+      #       unzip app.zip
+      #       rm app.zip
+      #       cd ~/app
+      #       docker compose up -d --build

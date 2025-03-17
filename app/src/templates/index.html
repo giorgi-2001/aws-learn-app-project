@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <header class="container">
+        <h1 class="display-5 mt-5">Welcome to our app</h1>
+        {% if reg_info %}
+            <div>
+                <p>Region: {{ reg_info.region}}</p>
+                <p>Aviability Zone: {{ reg_info.az}}</p>
+            </div>
+        {% endif%}
+    </header>
+    <main class="container">
+        <div class="row">
+            <div class="col-4">
+                <form action="{{ url_for('get_image_by_name')}}">
+                    <div class="input-group my-3">
+                        <input name="name" type="text" class="form-control" placeholder="Enter Image name" aria-label="Recipient's username" aria-describedby="button-addon2">
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-secondary" id="button-addon2">Search</button>
+                        </div>
+                    </div>
+                </form>
+                <form action="{{ url_for('get_image_by_name')}}">
+                    <div class="input-group">
+                        <div class="custom-file">
+                          <input type="file" class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
+                          <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+                        </div>
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Upload</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+    </main>
+{% endblock content %}
