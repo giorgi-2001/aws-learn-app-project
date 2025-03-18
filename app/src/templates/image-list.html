@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <header class="container mb-5">
+        <h1 class="display-4 mt-5 text-center">Image List:</h1>
+        {% if reg_info %}
+            <div>
+                <p>Region: {{ reg_info.region}}</p>
+                <p>Aviability Zone: {{ reg_info.az}}</p>
+            </div>
+        {% endif%}
+    </header>
+    <main class="container">
+        <div class="row justify-content-center">
+            <div class="col-4">
+                {% if images %}
+                    <ul class="list-group">
+                        {% for img in images %}
+                        <li class="list-group-item">
+                            <a href="{{ url_for('get_image_by_name', name=img.name) }}">{{ img.name }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="h4 text-center">No Images yet...</p>
+                {% endif %}
+            </div>
+        </div>
+        
+    </main>
+{% endblock content %}
