@@ -26,7 +26,6 @@ async def get_all_images(
     request: Request, db: db_dependency, filters: QueryParams = Depends()
 ):
     context = {"request": request}
-    # filters = {"name": name} if name else {}
     images = await db.get_all_images(**filters.model_dump())
     context["images"] = images
     return templates.TemplateResponse("image-list.html", context)
