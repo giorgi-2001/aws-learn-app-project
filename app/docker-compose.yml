@@ -1,6 +1,14 @@
 version: '3.8'
 
 services:
+  migration:
+    build: .
+    volumes:
+      - ./src:/app/src
+    command: alembic upgrade head
+    env_file:
+      - .env
+    
   fastapi:
     build: .
     ports:
@@ -9,6 +17,8 @@ services:
       - ./src:/app/src
     env_file:
       - .env
+    depends_on:
+      - migration
 
   nginx:
     image: nginx
