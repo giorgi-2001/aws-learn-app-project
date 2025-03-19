@@ -1,4 +1,5 @@
 from typing import Annotated
+from datetime import datetime
 
 from fastapi import APIRouter, UploadFile, File, Depends, Query
 from fastapi.responses import RedirectResponse
@@ -33,20 +34,20 @@ async def get_all_images(
 
 @router.get("/{name}")
 async def get_image_by_name(name: str, request: Request, db: db_dependency):
+    context = {"request": request,}
     img = await db.get_image_by_name(name)
-    image_data = None
-    if img:
-        image_data = {
-            "url": generate_presigned_url(name=name),
-            "name": name,
-            "size": img.size,
-            "extension": img.extension,
-            "last_update": img.updated_at
-        }
-    context = {
-        "request": request,
-        "img": image_data
+
+    if not img:
+        return templates.TemplateResponse("404.html", context)
+    
+    image_data = {
+        "url": generate_presigned_url(name=name),
+        "name": name,
+        "size": img.size,
+        "extension": img.extension,
+        "last_update": img.updated_at.strftime("%b %d %Y, %I:%M%p")
     }
+    context["img"] = image_data
     return templates.TemplateResponse("detail.html", context)
 
 

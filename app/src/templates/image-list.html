@@ -14,16 +14,17 @@
         <div class="row justify-content-center">
             <div class="col-4">
                 {% if images %}
-                    <ul class="list-group">
+                    <div class="list-group">
                         {% for img in images %}
-                        <li class="list-group-item">
-                            <a href="{{ url_for('get_image_by_name', name=img.name) }}">{{ img.name }}</a>
-                        </li>
+                            <a class="list-group-item list-group-item-action" href="{{ url_for('get_image_by_name', name=img.name) }}">{{ img.name }}</a>
                         {% endfor %}
-                    </ul>
+                    </div>
                 {% else %}
-                    <p class="h4 text-center">No Images yet...</p>
+                    <p class="h4 text-center">No Images found...</p>
                 {% endif %}
+                <p class="mt-5">
+                    <a href="{{ url_for('greeting') }}">Back to home page</a>
+                </p>
             </div>
         </div>
         

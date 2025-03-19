@@ -11,52 +11,60 @@
                     <img class="w-100" src="{{ img.url }}" alt="img">
                 </div>
                 <div class="col-6">
-                    
-                        <table class="table mb-4">
-                            <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">Attribute</th>
-                                <th scope="col">Value</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <th scope="row">Name:</th>
-                                <td>{{ img.name }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Size (Bytes):</th>
-                                <td>{{ img.size }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Extension:</th>
-                                <td>{{ img.extension }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Last updated at:</th>
-                                <td>{{ img.last_update }}</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <div class="container mt-5">
-                            <div class="row">
-                                <div class="col">
-                                    <a href="{{ img.url }}" download="{{ img.name }}" class="btn btn-primary btn-big">
-                                        Download the Image
-                                    </a>
-                                </div>
-                                <div class="col">
-                                    <button class="btn btn-danger ms-5 d-block" data-toggle="modal" data-target="#exampleModalCenter">
-                                        Delete Image
-                                    </button>
-                                </div>
+                    <table class="table mb-4">
+                        <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Attribute</th>
+                            <th scope="col">Value</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="row">Name:</th>
+                            <td>{{ img.name }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Size (Bytes):</th>
+                            <td>{{ img.size }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Extension:</th>
+                            <td>{{ img.extension }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Last updated at:</th>
+                            <td>{{ img.last_update }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="container mt-5">
+                        <div class="row">
+                            <div class="col">
+                                <a href="{{ img.url }}" download="{{ img.name }}" class="btn btn-primary btn-big">
+                                    Download the Image
+                                </a>
+                            </div>
+                            <div class="col">
+                                <button class="btn btn-danger ms-5 d-block" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+                                    Delete Image
+                                </button>
                             </div>
                         </div>
+                    </div>
                 </div>
             </div>
         {% else %}
             <h2 class="text-center">No Image Info Avialable!</h2>
         {% endif %}
+        <div class="d-flex justify-content-center mt-4 h5">
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="{{ url_for('greeting') }}">Home</a></li>
+                  <li class="breadcrumb-item"><a href="{{ url_for('get_all_images') }}">Images</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">{{ img.name }}</li>
+                </ol>
+            </nav>
+        </div>
     </main>
 
     <!-- Modal -->
@@ -67,8 +75,7 @@
             <h5 class="modal-title" id="exampleModalCenterTitle">
                 Do you want to delete the Image?
             </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
             </button>
             </div>
             <div class="modal-body">
@@ -78,12 +85,11 @@
                 </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 
                 <form method="POST" action="{{ url_for('delete_image', name=img.name) }}">
                     <button class="btn btn-danger">Yes Delete</button>
                 </form>
-            
             </div>
         </div>
         </div>
