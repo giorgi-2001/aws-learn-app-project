@@ -4,9 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD" crossorigin="anonymous">
     <title>WebApp</title>
 </head>
 <body>
+    <header class="container lead fw-normal">
+        <div class="row justify-content-center py-2">
+            <nav class="col-8 navbar navbar-expand-sm navbar-light border-bottom border-2">
+                <ul class="navbar-nav gap-2 align-items-center">
+                    <li class="nav-item">
+                        <a href="{{ url_for('greeting') }}" class="nav-link">
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('get_all_images') }}" class="nav-link">
+                            Images
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('email_subscription_page') }}" class="nav-link">
+                            Emails
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('check_data_consistency') }}" class="nav-link">
+                            Data Consistency
+                        </a>
+                    </li>
+                </ul>
+                <div class="ms-auto">
+                    <a href="{{ url_for('get_random_image') }}" class="btn btn-outline-primary">
+                        Random Image
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
     {% block content %}
     {% endblock content %}
 

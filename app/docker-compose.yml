@@ -3,22 +3,33 @@ version: '3.8'
 services:
   migration:
     build: .
-    volumes:
-      - ./src:/app/src
     command: alembic upgrade head
     env_file:
       - .env
     
   fastapi:
     build: .
-    ports:
-      - "8000:8000"
     volumes:
       - ./src:/app/src
     env_file:
       - .env
     depends_on:
       - migration
+  
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+
+  # celery:
+  #   build: .
+  #   volumes:
+  #     - ./src:/app/src
+  #   env_file:
+  #     - .env
+  #   command: celery -A src.celery_worker worker -B --loglevel=info 
+  #   depends_on:
+  #     - redis
 
   nginx:
     image: nginx

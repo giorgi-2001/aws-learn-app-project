@@ -56,15 +56,6 @@
         {% else %}
             <h2 class="text-center">No Image Info Avialable!</h2>
         {% endif %}
-        <div class="d-flex justify-content-center mt-4 h5">
-            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="{{ url_for('greeting') }}">Home</a></li>
-                  <li class="breadcrumb-item"><a href="{{ url_for('get_all_images') }}">Images</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">{{ img.name }}</li>
-                </ol>
-            </nav>
-        </div>
     </main>
 
     <!-- Modal -->

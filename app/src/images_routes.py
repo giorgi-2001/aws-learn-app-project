@@ -1,5 +1,5 @@
+import random
 from typing import Annotated
-from datetime import datetime
 
 from fastapi import APIRouter, UploadFile, File, Depends, Query
 from fastapi.responses import RedirectResponse
@@ -11,6 +11,10 @@ from .aws.s3_funcs import (
     generate_presigned_url,
     upload_image_to_s3,
     delete_image_from_s3
+)
+from .aws.sqs import (
+    send_message_to_sqs,
+    format_message
 )
 from .modelDAO import ImageDAO
 from .schemas import QueryParams
@@ -30,6 +34,20 @@ async def get_all_images(
     images = await db.get_all_images(**filters.model_dump())
     context["images"] = images
     return templates.TemplateResponse("image-list.html", context)
+
+
+@router.get("/random")
+async def get_random_image(request: Request, db: db_dependency):
+    images = await db.get_all_images()
+
+    if not images:
+        context = {"request": request}
+        return templates.TemplateResponse("404.html", context)
+    
+    rand_img = random.choice(images)
+    name = rand_img.name
+    url = request.url_for("get_image_by_name", name=name)
+    return RedirectResponse(url, status_code=303)
 
 
 @router.get("/{name}")
@@ -63,14 +81,18 @@ async def upload_image(
     upload_image_to_s3(name, content)
     img_metadata = get_image_metadata(name)
 
-    img_exists_in_db = await db.get_image_by_name(name)
+    image = await db.get_image_by_name(name)
 
-    if img_exists_in_db:
+    if image:
         await db.update_image(img_metadata)
     else:
         await db.save_image(img_metadata)
- 
+
     url = request.url_for("get_image_by_name", name=name)
+
+    message = format_message(image_metadata=img_metadata, img_url=str(url))
+    send_message_to_sqs(message, image_extension=img_metadata["extension"])
+    
     return RedirectResponse(url, status_code=303)
 
 

@@ -29,17 +29,6 @@
                         <button class="btn btn-outline-secondary" id="inputGroupFileAddon04">Upload</button>
                     </div>
                 </form>
-
-                <div class="d-flex mt-4 justify-content-between">
-                    <a href="{{ url_for('get_all_images') }}">
-                        View All Images
-                    </a>
-                    {% if rand_img_name %}
-                        <a href="{{ url_for('get_image_by_name', name=rand_img_name) }}">
-                            View random Image
-                        </a>
-                    {% endif %}
-                </div>
             </div>
         </div>
         

@@ -1,4 +1,3 @@
-import random
 from typing import Annotated
 
 from fastapi import FastAPI, Depends
@@ -6,6 +5,8 @@ from starlette.requests import Request
 
 from .aws.az_func import get_ec2_metadata_token, get_az_info
 from .images_routes import router as image_router
+from .email_routes import router as email_router
+from .check_data_consistency import router as data_router
 from .templates import templates
 from .modelDAO import ImageDAO
 
@@ -34,13 +35,11 @@ async def greeting(request: Request, db: db_dependency):
         "reg_info": reg_info
     }
 
-    images = await db.get_all_images()
-
-    if images:
-        random_image = random.choice(images)
-        context["rand_img_name"] = random_image.name
-
     return templates.TemplateResponse("index.html", context)
 
 
 app.include_router(router=image_router)
+
+app.include_router(router=email_router)
+
+app.include_router(router=data_router)
